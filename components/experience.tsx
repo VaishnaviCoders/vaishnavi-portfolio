@@ -221,7 +221,7 @@ export default function Experience() {
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold text-gray-800">
-                    SOFOSH – Tara and Shreevatsa Units
+                    SOFOSH – Sassoon General Hospital
                   </h3>
                   <p className="text-gray-600">4th Semester</p>
                 </div>

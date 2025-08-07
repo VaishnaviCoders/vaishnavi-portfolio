@@ -151,7 +151,7 @@ export default function Hero() {
                   src="/profile.jpg"
                   alt="Vaishnavi Raykar - Social Work Student"
                   fill
-                  className="object-cover hover:scale-110 transition-transform duration-700"
+                  className="object-left-top -top-2 object-cover hover:scale-110 transition-transform duration-700"
                   priority
                 />
               </div>
