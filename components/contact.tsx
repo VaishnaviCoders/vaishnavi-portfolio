@@ -1,22 +1,22 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from "react"
-import { motion, useAnimation } from "framer-motion"
-import { useInView } from "react-intersection-observer"
-import { Mail, Phone, MapPin, Send } from 'lucide-react'
+import { useState, useEffect } from 'react';
+import { motion, useAnimation } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import { Mail, Phone, MapPin, Send } from 'lucide-react';
 
 export default function Contact() {
-  const controls = useAnimation()
+  const controls = useAnimation();
   const [ref, inView] = useInView({
     threshold: 0.1,
     triggerOnce: true,
-  })
+  });
 
   useEffect(() => {
     if (inView) {
-      controls.start("visible")
+      controls.start('visible');
     }
-  }, [controls, inView])
+  }, [controls, inView]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -26,7 +26,7 @@ export default function Contact() {
         staggerChildren: 0.2,
       },
     },
-  }
+  };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -37,36 +37,51 @@ export default function Contact() {
         duration: 0.5,
       },
     },
-  }
+  };
 
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  })
+    name: '',
+    email: '',
+    message: '',
+  });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
-    }))
-  }
+    }));
+  };
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    // In a real implementation, this would send the form data to a server
-    alert("Thank you for your message! This is a demo form.")
-    setFormData({
-      name: "",
-      email: "",
-      message: "",
-    })
-  }
+    try {
+      const res = await fetch('https://formspree.io/f/xeozpgya', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+        },
+        body: new FormData(e.currentTarget),
+      });
+
+      if (res.ok) {
+        alert('Form submitted successfully!');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        alert('Submission failed.');
+      }
+    } catch (err) {
+      alert('Error submitting form.');
+    }
+  };
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 className="text-3xl sm:text-4xl font-bold text-center text-gray-800 mb-12">Get in Touch</h2>
+      <h2 className="text-3xl sm:text-4xl font-bold text-center text-gray-800 mb-12">
+        Get in Touch
+      </h2>
 
       <motion.div
         ref={ref}
@@ -78,7 +93,9 @@ export default function Contact() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <motion.div variants={itemVariants}>
             <div className="bg-white rounded-xl shadow-md p-6 sm:p-8">
-              <h3 className="text-xl font-semibold text-gray-800 mb-6">Contact Information</h3>
+              <h3 className="text-xl font-semibold text-gray-800 mb-6">
+                Contact Information
+              </h3>
               <div className="space-y-4">
                 <div className="flex items-start">
                   <div className="bg-teal-100 p-2 rounded-full mr-4">
@@ -86,7 +103,9 @@ export default function Contact() {
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">Email</p>
-                    <p className="text-gray-800">vaishnaviraykar768@gmail.com</p>
+                    <p className="text-gray-800">
+                      vaishnaviraykar768@gmail.com
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-start">
@@ -110,7 +129,9 @@ export default function Contact() {
               </div>
 
               <div className="mt-8">
-                <h4 className="text-lg font-medium text-gray-800 mb-4">Connect with me</h4>
+                <h4 className="text-lg font-medium text-gray-800 mb-4">
+                  Connect with me
+                </h4>
                 <div className="flex space-x-4">
                   <a
                     href="#"
@@ -171,7 +192,14 @@ export default function Contact() {
                       strokeLinejoin="round"
                       className="h-5 w-5 text-teal-600"
                     >
-                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                      <rect
+                        x="2"
+                        y="2"
+                        width="20"
+                        height="20"
+                        rx="5"
+                        ry="5"
+                      ></rect>
                       <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                       <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
                     </svg>
@@ -183,11 +211,20 @@ export default function Contact() {
 
           <motion.div variants={itemVariants}>
             <div className="bg-white rounded-xl shadow-md p-6 sm:p-8">
-              <h3 className="text-xl font-semibold text-gray-800 mb-6">Send a Message</h3>
-              <form onSubmit={handleSubmit}>
+              <h3 className="text-xl font-semibold text-gray-800 mb-6">
+                Send a Message
+              </h3>
+              <form
+                action="https://formspree.io/f/xeozpgya"
+                method="POST"
+                onSubmit={handleSubmit}
+              >
                 <div className="space-y-4">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label
+                      htmlFor="name"
+                      className="block text-sm font-medium text-gray-700 mb-1"
+                    >
                       Your Name
                     </label>
                     <input
@@ -202,7 +239,10 @@ export default function Contact() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium text-gray-700 mb-1"
+                    >
                       Your Email
                     </label>
                     <input
@@ -217,7 +257,10 @@ export default function Contact() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label
+                      htmlFor="message"
+                      className="block text-sm font-medium text-gray-700 mb-1"
+                    >
                       Message
                     </label>
                     <textarea
@@ -245,5 +288,5 @@ export default function Contact() {
         </div>
       </motion.div>
     </div>
-  )
+  );
 }
